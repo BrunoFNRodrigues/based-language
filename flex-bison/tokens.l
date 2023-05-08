@@ -22,11 +22,14 @@ extern "C" int yywrap() { }
 "("                     return TOKEN(TLPAREN);
 ")"                     return TOKEN(TRPAREN);
 "."                     return TOKEN(TDOT);
+":"                     return TOKEN(TDDOT);
 ","                     return TOKEN(TCOMMA);
 "+"                     return TOKEN(TPLUS);
 "-"                     return TOKEN(TMINUS);
 "*"                     return TOKEN(TMUL);
 "/"                     return TOKEN(TDIV);
+"\n"                    return TOKEN(TLB);
+"!"                     return TOKEN(TEX);
 
 "Shout"                 return TOKEN(TPRINT);
 "ForReal"               return TOKEN(TWHILE);

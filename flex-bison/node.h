@@ -49,10 +49,10 @@ public:
 
 class NBinaryOperator : public NExpression {
 public:
-    char op;
+    int op;
     NExpression& lhs;
     NExpression& rhs;
-    NBinaryOperator(NExpression& lhs, char op, NExpression& rhs) :
+    NBinaryOperator(NExpression& lhs, int op, NExpression& rhs) :
         lhs(lhs), rhs(rhs), op(op) { }
     virtual llvm::Value* codeGen(CodeGenContext& context);
 };
@@ -128,5 +128,19 @@ public:
     NBlock& block;
     NWhileStatement(NExpression& condition, NBlock& block) :
         condition(condition), block(block) { }
+    virtual llvm::Value* codeGen(CodeGenContext& context);
+};
+
+class ExpressionPrintNode : public NStatement {
+public:
+    NExpression* expression;
+    ExpressionPrintNode(NExpression* expr) : expression(expr) {}
+    virtual llvm::Value* codeGen(CodeGenContext& context);
+};
+
+class NReturnStatement : public NStatement {
+public:
+    NExpression* expression;
+    NReturnStatement(NExpression* expr) : expression(expr) {}
     virtual llvm::Value* codeGen(CodeGenContext& context);
 };

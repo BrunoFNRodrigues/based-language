@@ -51,24 +51,31 @@ extern int yydebug;
   {
     TIDENTIFIER = 258,
     TINTEGER = 259,
-    TDOUBLE = 260,
-    TCEQ = 261,
-    TCNE = 262,
-    TCLT = 263,
-    TCLE = 264,
-    TCGT = 265,
-    TCGE = 266,
-    TEQUAL = 267,
-    TLPAREN = 268,
-    TRPAREN = 269,
-    TLBRACE = 270,
-    TRBRACE = 271,
-    TCOMMA = 272,
-    TDOT = 273,
+    TCEQ = 260,
+    TCNE = 261,
+    TCLT = 262,
+    TCLE = 263,
+    TCGT = 264,
+    TCGE = 265,
+    TEQUAL = 266,
+    TLPAREN = 267,
+    TRPAREN = 268,
+    TCOMMA = 269,
+    TDOT = 270,
+    TDDOT = 271,
+    TEX = 272,
+    TRETURN = 273,
     TPLUS = 274,
     TMINUS = 275,
     TMUL = 276,
-    TDIV = 277
+    TDIV = 277,
+    TWHILE = 278,
+    TIF = 279,
+    TELSE = 280,
+    TELSE_IF = 281,
+    TPRINT = 282,
+    TLB = 283,
+    TDEF_FUNCTION = 284
   };
 #endif
 
@@ -89,7 +96,7 @@ union YYSTYPE
     std::string *string;
     int token;
 
-#line 93 "parser.hpp"
+#line 100 "parser.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

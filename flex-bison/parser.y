@@ -24,10 +24,10 @@
    match our tokens.l lex file. We also define the node type
    they represent.
  */
-%token <string> TIDENTIFIER TINTEGER TDOUBLE
+%token <string> TIDENTIFIER TINTEGER
 %token <token> TCEQ TCNE TCLT TCLE TCGT TCGE TEQUAL
-%token <token> TLPAREN TRPAREN TLBRACE TRBRACE TCOMMA TDOT
-%token <token> TPLUS TMINUS TMUL TDIV
+%token <token> TLPAREN TRPAREN TCOMMA TDOT TDDOT TEX TRETURN
+%token <token> TPLUS TMINUS TMUL TDIV TWHILE TIF TELSE TELSE_IF TPRINT TLB TDEF_FUNCTION
 
 /* Define the type of node our nonterminal symbols represent.
    The types refer to the %union declaration above. Ex: when
@@ -39,7 +39,7 @@
 %type <varvec> func_decl_args
 %type <exprvec> call_args
 %type <block> program stmts block
-%type <stmt> stmt var_decl func_decl
+%type <stmt> stmt var_decl func_decl while_stmt if_stmt else_if print_stmt return_stmt
 %type <token> comparison
 
 /* Operator precedence for mathematical operators */
@@ -57,20 +57,38 @@ stmts : stmt { $$ = new NBlock(); $$->statements.push_back($<stmt>1); }
       | stmts stmt { $1->statements.push_back($<stmt>2); }
       ;
 
-stmt : var_decl | func_decl
+stmt : var_decl | func_decl | while_stmt | if_stmt | print_stmt | return_stmt
      | expr { $$ = new NExpressionStatement(*$1); }
      ;
 
-block : TLBRACE stmts TRBRACE { $$ = $2; }
-      | TLBRACE TRBRACE { $$ = new NBlock(); }
+block : stmts TLB { $$ = $1; }
+      | TLB { $$ = new NBlock(); }
       ;
 
-var_decl : ident ident { $$ = new NVariableDeclaration(*$1, *$2); }
-         | ident ident TEQUAL expr { $$ = new NVariableDeclaration(*$1, *$2, $4); }
+while_stmt : TWHILE expr TDDOT block { $$ = new NWhileStatement(*$2, *$4); delete $2; delete $4;}
+           ;
+
+if_stmt : TIF expr TDDOT block { $$ = new NIfStatement(*$2, *$4, std::vector<NIfStatement::ElseIfClause>(), nullptr); delete $2; delete $4; }
+        | TIF expr TDDOT block else_if { $$ = new NIfStatement(*$2, *$4, *$5, nullptr); delete $2; delete $4; delete $5; }
+        | TIF expr TDDOT block TELSE block { $$ = new NIfStatement(*$2, *$4, std::vector<NIfStatement::ElseIfClause>(), $6); delete $2; delete $4; delete $6; }
+        | TIF expr TDDOT block else_if TELSE block { $$ = new NIfStatement(*$2, *$4, *$5, $7); delete $2; delete $4; delete $5; delete $7; }
+        ;
+
+else_if : TELSE_IF expr TDDOT block { $$ = std::vector<NIfStatement::ElseIfClause>(); $$->emplace_back(*$2, *$4); delete $2; delete $4; }
+        | else_if TELSE_IF expr TDDOT block { $1->emplace_back(*$3, *$5); delete $3; delete $5; }
+        ;
+
+print_stmt : TPRINT TEX expr TEX { $$ = new ExpressionPrintNode($3); }
+           ;
+
+return_stmt : TRETURN expr { $$ = new NReturnStatement($2); }
+            ;
+
+var_decl :  ident TEQUAL expr { $$ = new NVariableDeclaration(*$1, $3); }
          ;
         
-func_decl : ident ident TLPAREN func_decl_args TRPAREN block 
-            { $$ = new NFunctionDeclaration(*$1, *$2, *$4, *$6); delete $4; }
+func_decl : TDEF_FUNCTION ident TLPAREN func_decl_args TRPAREN block 
+            { $$ = new NFunctionDeclaration(*$2, *$4, *$6); delete $4; }
           ;
     
 func_decl_args : /*blank*/  { $$ = new VariableList(); }
