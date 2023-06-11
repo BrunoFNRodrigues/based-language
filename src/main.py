@@ -35,18 +35,11 @@ class Parser():
                 res = Assignment(children=[res, Parser.parseRelExpression()])
                 if Parser.tokenizer.next.type == "LB":
                     return res
-            elif Parser.tokenizer.next.type == "TYPO":
-                Parser.tokenizer.selectNext()
-                t =  Parser.tokenizer.next.value
-                Parser.tokenizer.selectNext()
-                if Parser.tokenizer.next.type == "EQL":
-                    Parser.tokenizer.selectNext()
-                    res = VarDec(t, [res, Parser.parseRelExpression()])
-                    if  Parser.tokenizer.next.type == "LB":
-                        return res                    
-                elif Parser.tokenizer.next.type == "LB":
-                    res = VarDec(t, [res])
-                    return res
+
+            elif  Parser.tokenizer.next.type == "LB":
+                return res                    
+
+       
             elif Parser.tokenizer.next.type == "OP":
                 Parser.tokenizer.selectNext()
                 args = [res]
@@ -120,24 +113,16 @@ class Parser():
                         if Parser.tokenizer.next.type == "IDT":
                             res = Identifier(Parser.tokenizer.next.value)
                             Parser.tokenizer.selectNext()
-                            if Parser.tokenizer.next.type == "TYPO":
-                                Parser.tokenizer.selectNext()
-                                t =  Parser.tokenizer.next.value
-                                args.append(VarDec(t, [res]))
-                                Parser.tokenizer.selectNext()
-                                if not Parser.tokenizer.next.type in ["COMA", "CP"]:
-                                    raise Exception("Declarou errado a func")
+                            args.append(VarDec("Int", [res]))
+                            if not Parser.tokenizer.next.type in ["COMA", "CP"]:
+                                raise Exception("Declarou errado a func")
                     Parser.tokenizer.selectNext()
-                    if Parser.tokenizer.next.type == "TYPO":
-                        Parser.tokenizer.selectNext()
-                        t =  Parser.tokenizer.next.value
-                        Parser.tokenizer.selectNext()
-                        if Parser.tokenizer.next.type == "LB":
-                            res = FuncDec(t, [iden, args, Parser.parseBlock()])
-                            if Parser.tokenizer.next.type == "END":
-                                Parser.tokenizer.selectNext()
-                                if Parser.tokenizer.next.type == "LB":
-                                    return res   
+                    if Parser.tokenizer.next.type == "LB":
+                        res = FuncDec("Int", [iden, args, Parser.parseBlock()])
+                        if Parser.tokenizer.next.type == "END":
+                            Parser.tokenizer.selectNext()
+                            if Parser.tokenizer.next.type == "LB":
+                                return res   
         
         else:
             raise Exception("Bad Statement: "+ Parser.tokenizer.next.type + " " + str(Parser.tokenizer.next.value))
@@ -176,21 +161,6 @@ class Parser():
                 res = Parser.parseRelExpression()
                 if Parser.tokenizer.next.type != "CP":
                     raise Exception("Faltou fechar")
-                Parser.tokenizer.selectNext()
-            elif Parser.tokenizer.next.type == "RD":
-                res = Read()
-                Parser.tokenizer.selectNext()
-                if Parser.tokenizer.next.type == "OP":
-                    Parser.tokenizer.selectNext()
-                    if Parser.tokenizer.next.type != "CP":
-                        raise Exception("Faltou fechar parenteses")
-                    Parser.tokenizer.selectNext()
-            elif Parser.tokenizer.next.type == "COT":
-                Parser.tokenizer.selectNext()
-                res = StringVal(Parser.tokenizer.next.value, [])
-                Parser.tokenizer.selectNext()
-                if Parser.tokenizer.next.type != "COT":
-                    raise Exception("Faltou fechar aspas")
                 Parser.tokenizer.selectNext()
 
             return res
@@ -245,31 +215,43 @@ class Parser():
 
     def parseRelExpression():
         res = Parser.parseExpression()
-        while Parser.tokenizer.next.type == "SEQL" or Parser.tokenizer.next.type == "GRT" or Parser.tokenizer.next.type == "LST" or Parser.tokenizer.next.type == "CONCAT":
+        while Parser.tokenizer.next.type == "SEQL" or Parser.tokenizer.next.type == "GRT" or Parser.tokenizer.next.type == "LST" or Parser.tokenizer.next.type == "NEQL" or Parser.tokenizer.next.type == "LE" or Parser.tokenizer.next.type == "GE":
             if Parser.tokenizer.next.type == "SEQL":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("== no fim")
+                    raise Exception("NoCap no fim")
                 res = BinOp("==", [Parser.parseExpression(), res])
                 
                   
             elif Parser.tokenizer.next.type == "GRT":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("> no fim")
+                    raise Exception("ItsOver9000 no fim")
                 res = BinOp(">", [Parser.parseExpression(), res])
                 
             elif Parser.tokenizer.next.type == "LST":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("< no fim")
+                    raise Exception("Smol no fim")
                 res = BinOp("<", [Parser.parseExpression(), res])
                 
-            elif Parser.tokenizer.next.type == "CONCAT":
+            elif Parser.tokenizer.next.type == "NEQL":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception(". no fim")
-                res = ConcatOp(".", [Parser.parseExpression(), res])
+                    raise Exception("Cap no fim")
+                res = BinOp("!=", [Parser.parseExpression(), res])
+                
+            elif Parser.tokenizer.next.type == "LE":
+                Parser.tokenizer.selectNext()
+                if Parser.tokenizer.next.type == "EOF":
+                    raise Exception("SmolNoCap no fim")
+                res = BinOp("<=", [Parser.parseExpression(), res])
+                
+            elif Parser.tokenizer.next.type == "GE":
+                Parser.tokenizer.selectNext()
+                if Parser.tokenizer.next.type == "EOF":
+                    raise Exception("ItsOver9000NoCap no fim")
+                res = BinOp(">=", [Parser.parseExpression(), res])
         return res
 
 

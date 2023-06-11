@@ -14,10 +14,10 @@ class Tokenizer():
         nums = ["0","1","2","3","4","5","6","7","8","9"]
         sym = {"+":"POS", "-":"NEG", "/":"DIV", 
                "*":"MULT", "(":"OP", ")":"CP", ",":"COMA",
-               "||":"OR", "&&":"AND", "=": "EQL", "==":"SEQL",
-               ">":"GRT", "<":"LST", "!" : "FTR", ".":"CONCAT", "::":"TYPO", '"':"COT"}
-        reserved = {"println":"PNT", "readline":"RD", "while":"WHL", "if":"IF", "else":"ELSE", "end":"END", "String":"STR",
-                     "Int":"INT", "function":"FUNC", "return":"RET"}
+               "||":"OR", "&&":"AND", "=": "EQL", "!" : "FTR"}
+        reserved = {"Shout":"PNT", "ForReal":"WHL", "BASED":"IF", "CRINGE":"ELSE", "end":"END", "String":"STR",
+                     "Int":"INT", "Sigma":"FUNC", "RiseAndGrind":"RET", "NoCap":"SEQL", "Cap":"NEQL", "SmolNoCap":"LE",
+                     "Smol":"LSR", "ItsOver9000NoCap":"GE", "ItsOver9000":"GRT"}
         letters= list(string.ascii_letters)
         start_positon = self.position
         if start_positon == len(self.source):

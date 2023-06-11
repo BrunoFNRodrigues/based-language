@@ -1,0 +1,5 @@
+Sigma square (x)
+    RiseAndGrind(x * x)
+end
+
+Shout(square(7))

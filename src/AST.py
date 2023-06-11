@@ -15,10 +15,16 @@ class BinOp(Node):
     def Evaluate(self, table = 0):
         if self.value == "==":
             res = self.children[1].Evaluate(table)[1] == self.children[0].Evaluate(table)[1]
+        elif self.value == "!=":
+            res = self.children[1].Evaluate(table)[1]!=self.children[0].Evaluate(table)[1]
         elif self.value == ">":
             res = self.children[1].Evaluate(table)[1]>self.children[0].Evaluate(table)[1]
         elif self.value == "<":
             res = self.children[1].Evaluate(table)[1]<self.children[0].Evaluate(table)[1]
+        elif self.value == "<=":
+            res = self.children[1].Evaluate(table)[1]<=self.children[0].Evaluate(table)[1]
+        elif self.value == ">=":
+            res = self.children[1].Evaluate(table)[1]>=self.children[0].Evaluate(table)[1]
         elif self.value == "||":
             res = self.children[1].Evaluate(table)[1] or self.children[0].Evaluate(table)[1]
         elif self.value == "&&":

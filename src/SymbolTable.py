@@ -12,13 +12,14 @@ class SymbolTable():
             return self.table[key]
     
     def Setter(self, key, value):
-        if value[0] != self.table[key][0]:
-            raise Exception("Tipo não combina: "+value[0]+"!="+self.table[key][0]) 
-        self.table[key] = value
+        if key in self.table.keys():
+            self.table[key] = value 
+        else:            
+            self.table[key] = value
 
     def Create(self, key, value):
         if key in self.table.keys():
             raise Exception("Variavel já existe")
         else:
-            self.table[key] = value
+            self.table[key] = ("Int",value)
 
