@@ -16,8 +16,8 @@ class Tokenizer():
                "*":"MULT", "(":"OP", ")":"CP", ",":"COMA",
                "||":"OR", "&&":"AND", "=": "EQL", "!" : "FTR"}
         reserved = {"Shout":"PNT", "ForReal":"WHL", "BASED":"IF", "CRINGE":"ELSE", "end":"END", "String":"STR",
-                     "Int":"INT", "Sigma":"FUNC", "RiseAndGrind":"RET", "NoCap":"SEQL", "Cap":"NEQL", "SmolNoCap":"LE",
-                     "Smol":"LSR", "ItsOver9000NoCap":"GE", "ItsOver9000":"GRT"}
+                     "Int":"INT", "Sigma":"FUNC", "RiseAndGrind":"RET", "NoCap":"SEQL", "Cap":"NEQL", "SknotsNoCap":"LE",
+                     "Sknots":"LSR", "StonksNoCap":"GE", "Stonks":"GRT"}
         letters= list(string.ascii_letters)
         start_positon = self.position
         if start_positon == len(self.source):
@@ -29,7 +29,7 @@ class Tokenizer():
                 if self.source[self.position] in list(sym.keys()) or self.source[self.position:self.position+1] == "\n":
                     value = self.source[start_positon:self.position]
                     if " " in value.strip():
-                        raise Exception("Space between numbers")
+                        raise Exception("Você é fraco lhe falta erros: Espaço entre numeros")
                     else:
                         self.next = Token("INT", int(value.replace(" ", "")))
                         PARSING = 0
@@ -37,7 +37,7 @@ class Tokenizer():
                     self.position += 1   
                     if self.position == len(self.source):
                         if " " in self.source[start_positon:self.position].strip():
-                            raise Exception("Space between numbers")
+                            raise Exception("Você é fraco lhe falta erros: Espaço entre numeros")
                         else:
                             self.next = Token("INT", int(self.source[start_positon:self.position].replace(" ", "")))
                             PARSING = 0
@@ -61,9 +61,9 @@ class Tokenizer():
                     sinal = self.source[start_positon:self.position+1]
                     sinal2 = self.source[start_positon:self.position+2]
                     if " " in sinal2 and (not "(" in sinal2) and (not ")" in sinal2) and start_positon != 0:
-                        raise Exception("Space between symbols")
+                        raise Exception("Você é fraco lhe falta erros: Espaço entre simbolos")
                     elif (sinal2[0] == "*" or sinal2[0] == "/") and (sinal2[-1] == "*" or sinal2[-1] == "/"):
-                        raise Exception("Too Many symbols")
+                        raise Exception("Você é fraco lhe falta erros: Too Many symbols")
 
                     else:                   
                         sinal = sinal.replace(" ", "")
@@ -82,7 +82,7 @@ class Tokenizer():
                 if self.source[self.position] in list(sym.keys())+[" "] or self.source[self.position:self.position+1] == "\n" or self.source[self.position:self.position+2] in list(sym.keys()):
                     value = self.source[start_positon:self.position].strip()
                     if " " in value:
-                        raise Exception("Variavel invalida")
+                        raise Exception("Você é fraco lhe falta erros: Variavel invalida")
                     self.next = Token("IDT", value)
 
                     if value in reserved.keys():
@@ -108,7 +108,7 @@ class Tokenizer():
                 if self.source[self.position] in letters+["\n"]:
                     value = self.source[start_positon:self.position]
                     if " " in value.strip():
-                        raise Exception("Variavel invalida")
+                        raise Exception("Você é fraco lhe falta erros: Variavel invalida")
                     self.next = Token("LB", value.strip())
                     PARSING = 0 
                 self.position += 1

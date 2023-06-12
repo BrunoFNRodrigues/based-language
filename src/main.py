@@ -90,7 +90,7 @@ class Parser():
                         if Parser.tokenizer.next.type == "END":
                             Parser.tokenizer.selectNext()
                         else:
-                            raise Exception("Else problem")
+                            raise Exception("Você é fraco lhe falta erros: Esqueceu o end")
                         
                 if Parser.tokenizer.next.type == "LB":
                     return res    
@@ -115,7 +115,7 @@ class Parser():
                             Parser.tokenizer.selectNext()
                             args.append(VarDec("Int", [res]))
                             if not Parser.tokenizer.next.type in ["COMA", "CP"]:
-                                raise Exception("Declarou errado a func")
+                                raise Exception("Você é fraco lhe falta erros: Declarou errado a func")
                     Parser.tokenizer.selectNext()
                     if Parser.tokenizer.next.type == "LB":
                         res = FuncDec("Int", [iden, args, Parser.parseBlock()])
@@ -125,7 +125,7 @@ class Parser():
                                 return res   
         
         else:
-            raise Exception("Bad Statement: "+ Parser.tokenizer.next.type + " " + str(Parser.tokenizer.next.value))
+            raise Exception("Você é fraco lhe falta erros: Bad Statement: "+ Parser.tokenizer.next.type + " " + str(Parser.tokenizer.next.value))
                         
     def parseFactor():
         if Parser.tokenizer.next.type != "CP":
@@ -160,12 +160,12 @@ class Parser():
                 Parser.tokenizer.selectNext()
                 res = Parser.parseRelExpression()
                 if Parser.tokenizer.next.type != "CP":
-                    raise Exception("Faltou fechar")
+                    raise Exception("Você é fraco lhe falta erros: Faltou fechar pareneteses")
                 Parser.tokenizer.selectNext()
 
             return res
         else:
-            raise Exception("CP No lugar errado")
+            raise Exception("Você é fraco lhe falta erros: fecha parenteses no lugar errado")
 
     def parseTerm():
         res = Parser.parseFactor()
@@ -173,19 +173,19 @@ class Parser():
             if Parser.tokenizer.next.type == "MULT":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("* no fim")
+                    raise Exception("Você é fraco lhe falta erros: * no fim")
                 res = BinOp("*", [Parser.parseFactor(), res])
                    
             elif Parser.tokenizer.next.type == "DIV":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("* no fim")
+                    raise Exception("Você é fraco lhe falta erros: / no fim")
                 res = BinOp("/", [Parser.parseFactor(), res])
 
             elif Parser.tokenizer.next.type == "AND":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("&& no fim")
+                    raise Exception("Você é fraco lhe falta erros: && no fim")
                 res = BinOp("&&", [Parser.parseFactor(), res])
                 
         return res
@@ -196,19 +196,19 @@ class Parser():
             if Parser.tokenizer.next.type == "POS":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("+ no fim")
+                    raise Exception("Você é fraco lhe falta erros: + no fim")
                 res = BinOp("+", [Parser.parseTerm(), res])   
                   
             elif Parser.tokenizer.next.type == "NEG":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("- no fim")
+                    raise Exception("Você é fraco lhe falta erros: - no fim")
                 res = BinOp("-", [Parser.parseTerm(), res])
                 
             elif Parser.tokenizer.next.type == "OR":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("|| no fim")
+                    raise Exception("Você é fraco lhe falta erros: || no fim")
                 res = BinOp("||", [Parser.parseTerm(), res])            
         
         return res
@@ -219,38 +219,38 @@ class Parser():
             if Parser.tokenizer.next.type == "SEQL":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("NoCap no fim")
+                    raise Exception("Você é fraco lhe falta erros: NoCap no fim")
                 res = BinOp("==", [Parser.parseExpression(), res])
                 
                   
             elif Parser.tokenizer.next.type == "GRT":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("ItsOver9000 no fim")
+                    raise Exception("Você é fraco lhe falta erros: ItsOver9000 no fim")
                 res = BinOp(">", [Parser.parseExpression(), res])
                 
             elif Parser.tokenizer.next.type == "LST":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("Smol no fim")
+                    raise Exception("Você é fraco lhe falta erros: Smol no fim")
                 res = BinOp("<", [Parser.parseExpression(), res])
                 
             elif Parser.tokenizer.next.type == "NEQL":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("Cap no fim")
+                    raise Exception("Você é fraco lhe falta erros: Cap no fim")
                 res = BinOp("!=", [Parser.parseExpression(), res])
                 
             elif Parser.tokenizer.next.type == "LE":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("SmolNoCap no fim")
+                    raise Exception("Você é fraco lhe falta erros: SmolNoCap no fim")
                 res = BinOp("<=", [Parser.parseExpression(), res])
                 
             elif Parser.tokenizer.next.type == "GE":
                 Parser.tokenizer.selectNext()
                 if Parser.tokenizer.next.type == "EOF":
-                    raise Exception("ItsOver9000NoCap no fim")
+                    raise Exception("Você é fraco lhe falta erros: ItsOver9000NoCap no fim")
                 res = BinOp(">=", [Parser.parseExpression(), res])
         return res
 
@@ -268,7 +268,7 @@ def lexicon(arg):
         raise Exception("No Argument")
     for i in arg:
         if i not in alfabeto:
-            raise Exception(i,"Invalid Argument")
+            raise Exception(i,"Você é fraco lhe falta erros: Invalid Argument")
         
 def comments(arg):
     pos = 0

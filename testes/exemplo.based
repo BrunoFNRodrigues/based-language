@@ -2,4 +2,15 @@ Sigma square (x)
     RiseAndGrind(x * x)
 end
 
-Shout(square(7))
+a = 13
+b = 5
+z = "HelloWorld"
+
+ForReal b SknotsNoCap 15
+    BASED a Stonks b
+        Shout(square(b))
+    CRINGE
+        Shout(square(a Cap b))
+    end
+    b = b + 2
+end

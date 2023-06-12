@@ -7,7 +7,7 @@ class SymbolTable():
         
     def Getter(self, key):
         if key in SymbolTable.reserved:
-            raise Exception("Palavra reservada")
+            raise Exception("Você é fraco lhe falta erros: Palavra reservada")
         if key in self.table.keys():
             return self.table[key]
     
@@ -19,7 +19,7 @@ class SymbolTable():
 
     def Create(self, key, value):
         if key in self.table.keys():
-            raise Exception("Variavel já existe")
+            raise Exception("Você é fraco lhe falta erros: Variavel já existe")
         else:
             self.table[key] = ("Int",value)
 

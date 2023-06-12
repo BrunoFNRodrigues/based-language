@@ -99,7 +99,7 @@ class While(Node):
 
 class If(Node):
     def Evaluate(self, table = 0):
-        if self.children[-1].Evaluate(table):
+        if self.children[-1].Evaluate(table)[1]:
             self.children[-2].Evaluate(table)
         elif len(self.children) > 2:
             self.children[0].Evaluate(table)
