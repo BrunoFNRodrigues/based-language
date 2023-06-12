@@ -1,35 +1,39 @@
-# based-language
-Linguagem com a finalidade de entrer, a linguagem based é um clone da linguagem python com alterções para incorpar memes como seus operadores.
+# Based Language
+<img src="./img/Gigachad.jpg" width="250"/>
+
+### Linguagem com a finalidade de entreter e fazer uma piada. A linguagem based é inspirada na linguagem python com alterções para incorpar memes e girias da geração z como seus operadores.
 
 
-# BLOCK E STATEMENT
+
+# EBNF
+## BLOCK E STATEMENT
 BLOCK = { STATEMENT };
 STATEMENT = ( λ | ASSIGNMENT | PRINT | CONDITONAL | LOOP | FUNCTION | RETURN), "\n" ;
 
-# ASSIGMENT
+## ASSIGMENT
 ASSIGNMENT = IDENTIFIER, "=", EXPRESSION ["(", ( {IDENTIFIER, (",", λ)} | λ ) ,")"] ;
 
-# PRINTS
+## PRINTS
 PRINT = "Shout", "(", EXPRESSION, ")" ;
 
-# CONDITIONAL
+## CONDITIONAL
 CONDITONAL_IF = ("BASED", COMPARISON, "\n", BLOCK | λ, CONDITONAL_ELSE | "end");
 CONDITONAL_ELSE = "CRINGE", "\n", BLOCK | λ, "end";
 
-# LOOPS
+## LOOPS
 LOOP = "ForReal", COMPARISON, "\n" BLOCK, "end";
 
-# FUCTION
+## FUCTION
 FUNCTION =  "Sigma", IDENTIFIER, "(", ( {IDENTIFIER, (",", λ)} | λ ), ")", "\n", BLOCK, "end";
 RETURN = "RiseAndGrind", EXPRESSION;
 
-# REL. EXPRESSION, EXPRESSION, TERM E FACTOR
+## REL. EXPRESSION, EXPRESSION, TERM E FACTOR
 REL. EXPRESSION = EXPRESSION, {COMPARISON, TERM} ;
 EXPRESSION = TERM, { ("+" | "-" | "||"), TERM } ;
 TERM = FACTOR, { ("*" | "/" | "&&"), FACTOR } ;
 FACTOR = (("+" | "-" | "!"), FACTOR) | NUMBER | "(", EXPRESSION, ")" | IDENTIFIER | (IDENTIFIER, "(", (EXPRESSION | [{EXPRESSION, ","}] | λ) , ")" ) ;
 
-# COMPARISON
+## COMPARISON
 COMPARISON = (EQUAL | NOT_EQUAL | LESSER_EQUAL | LESSER | GRATER_EQUAL | GRATER);
 EQUAL = EXPRESSION, 'NoCap', EXPRESSION;
 NOT_EQUAL = EXPRESSION, 'Cap', EXPRESSION;
@@ -38,7 +42,7 @@ LESSER = EXPRESSION, 'Smol', EXPRESSION ;
 GRATER_EQUAL = EXPRESSION, 'ItsOver9000NoCap', EXPRESSION ;
 GRATER = EXPRESSION, 'ItsOver9000', EXPRESSION ;
 
-# IDENTIFIER, NUMBER E LETTER
+## IDENTIFIER, NUMBER E LETTER
 IDENTIFIER = LETTER, { LETTER | DIGIT | "_" } ;
 NUMBER = DIGIT, { DIGIT } ;
 LETTER = ( a | ... | z | A | ... | Z ) ;
